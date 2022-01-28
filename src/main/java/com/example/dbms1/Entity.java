@@ -7,22 +7,17 @@ import java.util.Map;
 public class Entity {
 	
 	private String Title;
-	private Map<String ,Integer> IntegerFields;
+	
 	private Map<String, String> StringFields;
 	private Map<String, Double> DoubleFields;
 	Entity()
 	{
-		IntegerFields = new HashMap<String, Integer>();
+		
 		DoubleFields = new HashMap<>();
 		StringFields = new HashMap<>();
 		
 	}
-	public Map<String, Integer> getIntegerFields() {
-		return IntegerFields;
-	}
-	public void setIntegerFields(Map<String, Integer> integerFields) {
-		IntegerFields = integerFields;
-	}
+	
 	public Map<String, String> getStringFields() {
 		return StringFields;
 	}

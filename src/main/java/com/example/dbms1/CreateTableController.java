@@ -2,12 +2,15 @@ package com.example.dbms1;
 
 import java.io.IOException;
 
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
 import javafx.fxml.FXML;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
+import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TableView.TableViewSelectionModel;
 import javafx.scene.control.TextField;
@@ -65,6 +68,8 @@ public class CreateTableController {
 		DataType.setEditable(true);
 		DataType.setCellFactory(TextFieldTableCell.forTableColumn());
 		DataType.setCellValueFactory(new PropertyValueFactory<FieldData,String>("DataType"));
+	
+	
 		
 		DataType.setOnEditCommit(new EventHandler<CellEditEvent<FieldData,String>>(){
 

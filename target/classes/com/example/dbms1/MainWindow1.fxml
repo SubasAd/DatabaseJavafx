@@ -11,6 +11,8 @@
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TreeView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
@@ -23,24 +25,24 @@
   <children>
     <MenuBar prefHeight="41.0" prefWidth="904.0" VBox.vgrow="ALWAYS">
       <menus>
-        <Menu fx:id="FileMenu" mnemonicParsing="false" text="File">
+        <Menu fx:id="FileMenu" text="_File">
           <items>
-                  <Menu mnemonicParsing="false" text="New">
+                  <Menu text="_New">
                     <items>
-                        <MenuItem mnemonicParsing="false" onAction="#CreateNewDatabase" text="Database" />
+                        <MenuItem onAction="#CreateNewDatabase" text="Data_base" />
                     </items>
                   </Menu>
             <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" onAction="#Close" text="Close" />
-            <MenuItem mnemonicParsing="false" onAction="#Save" text="Save" />
+            <MenuItem onAction="#Close" text="_Close" />
+            <MenuItem onAction="#Save" text="_Save" />
             <SeparatorMenuItem mnemonicParsing="false" />
             <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" onAction="#Exit" text="Quit" />
+            <MenuItem onAction="#Exit" text="_Quit" />
           </items>
         </Menu>
-        <Menu fx:id="EditMenu" mnemonicParsing="false" text="Edit">
+        <Menu fx:id="EditMenu" text="_Edit">
           <items>
-            <MenuItem mnemonicParsing="false" onAction="#Delete" text="Delete" />
+            <MenuItem onAction="#Delete" text="_Delete" />
           </items>
         </Menu>
       </menus>
@@ -72,6 +74,11 @@
                         <VBox fx:id="sideVBox" prefHeight="111.0" prefWidth="226.0" />
                      </children>
                   </HBox>
+                  <ImageView fitHeight="25.0" fitWidth="30.0" layoutX="190.0" layoutY="16.0" onMouseClicked="#Search" onMouseEntered="#Search" onMouseExited="#unSearch" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="C:/Users/subas/Downloads/97a64971e2a6741339b09c64c93e448e.png" />
+                     </image>
+                  </ImageView>
           </children>
         </AnchorPane>
       </items>

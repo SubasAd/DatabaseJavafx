@@ -1,8 +1,7 @@
 package com.example.dbms1;
 
-import java.io.*;
-
-
+  import java.io.*;
+import java.util.Comparator;
 import java.util.HashMap;
 
 import org.apache.poi.ss.usermodel.CellType;
@@ -11,6 +10,8 @@ import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import utils.BinaryTree;
 public class Repository   {
   private File file;
   private FileInputStream fip;
@@ -49,7 +50,7 @@ public class Repository   {
     public  boolean Save(Entity obj, String db) throws IOException, IllegalAccessException {
     	
     	HashMap<String, Double> doubles =(HashMap<String, Double>) obj.getDoubleFields();
-    	HashMap<String ,Integer> ints = (HashMap<String,Integer>) obj.getIntegerFields();
+    
     	HashMap<String, String> strings  = (HashMap<String,String>) obj.getStringFields();
     	
     
@@ -65,7 +66,7 @@ public class Repository   {
       XSSFSheet table = workbook.getSheet(obj.getTitle())== null?workbook.createSheet(obj.getTitle()):workbook.getSheet(obj.getTitle());
        XSSFRow HeaderRow =  table.createRow(0);
       Object[] doublekeys =  doubles.keySet().toArray();
-      Object[] intkeys =  ints.keySet().toArray();
+    
      Object[]  StringKeys = strings.keySet().toArray();
        int i;
      for( i = 0;i< doubles.size();i++)
@@ -74,10 +75,10 @@ public class Repository   {
        cell.setCellValue(doublekeys[i].toString());
      }
     
-     for(;i-doubles.size()-ints.size() < strings.size();i++)
+     for(;i-doubles.size() < strings.size();i++)
      {
     	 XSSFCell  cell=  HeaderRow.createCell(i);
-         cell.setCellValue(StringKeys[i-doubles.size()-ints.size()].toString());
+         cell.setCellValue(StringKeys[i-doubles.size()].toString());
      }
        XSSFRow objRow =  table.createRow(table.getLastRowNum()+1);
        
@@ -88,11 +89,11 @@ public class Repository   {
          cell.setCellValue(doubles.get(doublekeys[i]));
        }
       
-       for(;i-doubles.size()-ints.size() < strings.size();i++)
+       for(;i-doubles.size() < strings.size();i++)
        {
     	   try {
       	 XSSFCell  cell=  objRow.createCell(i);
-           cell.setCellValue(strings.get(StringKeys[i-doubles.size()-ints.size()]));
+           cell.setCellValue(strings.get(StringKeys[i-doubles.size()]));
        }
        catch(Exception exception)
        {
@@ -203,9 +204,11 @@ for(int i = 0;i< table.getRow(0).getLastCellNum();i++) if(field.equals(table.get
 	  }
 	 XSSFSheet  sheet =  workbook.getSheet(Title);
 	 Entity [] e = new Entity[sheet.getLastRowNum()];
+	 
 	 for(int i =0;i<e.length;i++)
 	 {
 		 e[i] = returnObjectByRow(sheet.getRow(i+1),sheet.getRow(0),Title);
+		
 	 }   
 	return e;
 	  
@@ -223,4 +226,32 @@ for(int i = 0;i< table.getRow(0).getLastCellNum();i++) if(field.equals(table.get
  workbook.write(fileOut);
 	  fileOut.close();
   }
+   BinaryTree<Entity> getBinaryTree(String key,String db,String Title, int code ) throws IOException
+   {
+	   if(FileNotexisted(db))
+		  {
+			  System.out.println("File Doesn't Exists");
+			  return null;
+		  }
+	   
+	   XSSFSheet  sheet =  workbook.getSheet(Title);
+	   BinaryTree<Entity> bt = new BinaryTree();
+	for(int i =0;i<sheet.getLastRowNum();i++)
+	{
+		bt.Insert(returnObjectByRow(sheet.getRow(i+1),sheet.getRow(0),Title), new Comparator<Entity>() {
+
+			@Override
+			public int compare(Entity o1, Entity o2) {
+				
+				if(code == 0)
+				{
+					return  ( o1.getDoubleFields().get(key).compareTo( o2.getDoubleFields().get(key)));
+				}
+				else return o1.getStringFields().get(key).compareToIgnoreCase(o2.getStringFields().get(key));
+			}});
+	}
+	   
+	 return bt;  
+	   
+   }
 }
