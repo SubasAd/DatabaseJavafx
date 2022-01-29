@@ -67,6 +67,7 @@ public class MainController {
 	 private HBox sidehbox;
 	@FXML
 	 private VBox sideVBox;
+	boolean isAscending = false;
 	
 	ToggleGroup togglegroup = new ToggleGroup();
 	VBox vb2 =new VBox(25);
@@ -543,7 +544,9 @@ public class MainController {
     	
     	
     	Object [] e  = DatabaseContents.getItems().toArray();
-     BinaryTree.MergeSort(e, new Comparator<Entity>() {
+    	if(!isAscending)
+    	{
+    		BinaryTree.MergeSort(e, new Comparator<Entity>() {
 
 			@Override
 			public int compare(Entity o1, Entity o2) {
@@ -557,6 +560,27 @@ public class MainController {
 				
 				
 			}});
+    		isAscending = true;
+    	}
+    	else
+    	{
+    		BinaryTree.MergeSort(e, new Comparator<Entity>() {
+
+    			@Override
+    			public int compare(Entity o1, Entity o2) {
+    				try {
+    			return	-1*(o1.getDoubleFields().get(field).compareTo(o2.getDoubleFields().get(field))) ;
+    				
+    				}catch(Exception ex)
+    				{
+    					return -1*(o1.getStringFields().get(field).compareToIgnoreCase(o2.getStringFields().get(field)));
+    				}
+    				
+    				
+    			}});
+    		isAscending = false;
+    	}
+     
     	DatabaseContents.getItems().clear();
     	for(int i =0;i< e.length;i++)
     	{
@@ -644,7 +668,7 @@ vb2.getChildren().addAll( tf);
 	  {
 		  if(Field.equalsIgnoreCase(doublekeys[i].toString())) 
 		  {
-			//  bt = btDoubles[i];
+			
 			  isDouble = true;
 			  break;
 		  }
